@@ -6,6 +6,7 @@ import (
 )
 
 type CallbackFunc func() (interface{}, error)
+type CallbackDefinitions map[string]CallbackFunc
 
 type DummyStruct struct{}
 
@@ -17,7 +18,7 @@ type ContainerInterface interface {
 }
 
 type Container struct {
-	definitions map[string]CallbackFunc
+	definitions CallbackDefinitions
 }
 
 func NewContainer() *Container {
@@ -42,13 +43,13 @@ func (c *Container) Has(id string) bool {
 	return found
 }
 
-func (c *Container) SetDefinitions([]string) {
-	// @todo
+func (c *Container) SetDefinitions(definitions CallbackDefinitions) {
+	c.definitions = definitions
 }
 
 func (c *Container) Set(id string, callback CallbackFunc) {
 	if c.definitions == nil {
-		c.definitions = make(map[string]CallbackFunc)
+		c.definitions = make(CallbackDefinitions)
 	}
 	c.definitions[id] = callback
 }

@@ -62,3 +62,31 @@ func (t *ContainerTestSuite) TestResolveDepencencies() {
 
 	t.Equal("It works as other concrete implementation", s.Resolvable.Test())
 }
+
+func (t *ContainerTestSuite) TestSetDefinitions() {
+
+	definitions := CallbackDefinitions{
+		"ResolvableInterface":      newResolvableConrete,
+		"OtherResolvableInterface": newOtherResolvableConrete,
+	}
+
+	t.container.SetDefinitions(definitions)
+
+	resolvableInstance, err := t.container.Get("ResolvableInterface")
+	t.Nil(err)
+
+	resolved, ok := resolvableInstance.(ResolvableInterface)
+
+	t.True(ok)
+
+	t.Equal("It works", resolved.Test())
+
+	resolvableInstance, err = t.container.Get("OtherResolvableInterface")
+	t.Nil(err)
+
+	resolved, ok = resolvableInstance.(ResolvableInterface)
+
+	t.True(ok)
+
+	t.Equal("It works as other concrete implementation", resolved.Test())
+}

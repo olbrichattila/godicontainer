@@ -5,9 +5,65 @@
 
 ## Usage:
 
-Mapping, resolving a struct via interface
+Mapping, resolving a struct via interface:
 
+### With Set method 
+```
+container := godicontainer.NewContainer()
 
+// First parameter is the string representation of the interface to resolve
+// Second parameter is a function which has the following structure:
+// type CallbackFunc func() (interface{}, error)
+container.Set("ResolvableInterfaceName", newResolvableConrete)
+```
+
+## With SetDefinitions
+```
+container := godicontainer.NewContainer()
+definitions := godicontainer.CallbackDefinitions{
+	"AnimalInterface": NewCat,
+	"HumanInterface":  NewHuman,
+}
+
+app.container.SetDefinitions(definitions)
+```
+
+## Resolve implementation with Get
+
+```
+animal, err = app.container.Get("AnimalInterface")
+if err != nil {
+	fmt.Println(err)
+	return
+}
+
+eated = animal.(AnimalInterface).Eats()
+```
+
+## Auto wire properties:
+
+Add the interface declaration of your properties to your concrete implementation struct: Add struct tag: di:"autowire"
+Exampe:
+
+```
+type Creatures struct {
+	Animal AnimalInterface `di:"autowire"`
+	Human  HumanInterface  `di:"autowire"`
+}
+```
+
+Then wire in the dependencies:
+```
+creatures := Creatures{}
+app.container.ResolvDependencies(creatures, &creatures)
+
+fmt.Println(creatures.Animal.Eats())
+fmt.Println(creatures.Human.Say())
+```
+
+Full examples:
+
+### Respolve instance
 ```
 package main
 
@@ -157,8 +213,11 @@ func newApp() *App {
 
 func main() {
 	app := newApp()
-	app.container.Set("AnimalInterface", NewCat)
-	app.container.Set("HumanInterface", NewHuman)
+	definitions := godicontainer.CallbackDefinitions{
+		"AnimalInterface": NewCat,
+		"HumanInterface":  NewHuman,
+	}
+	app.container.SetDefinitions(definitions)
 
 	// You cannot use a ponter here
 	creatures := Creatures{}
@@ -172,6 +231,3 @@ func main() {
 	fmt.Println(creatures.Human.Say())
 }
 ```
-
-
-
