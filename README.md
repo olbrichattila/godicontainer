@@ -151,9 +151,8 @@ func main() {
 	app.container.Set("AnimalInterface", NewCat)
 	app.container.Set("HumanInterface", NewHuman)
 
-	creatures := &Creatures{}
-
-	app.container.ResolvDependencies(Creatures{}, creatures)
+	creatures := Creatures{}
+	app.container.ResolvDependencies(creatures, &creatures)
 
 	fmt.Println(creatures.Animal.Eats())
 	fmt.Println(creatures.Human.Say())

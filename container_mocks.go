@@ -9,7 +9,7 @@ type OtherResolvableInterface interface {
 }
 
 type ResolvableConcrete struct {
-	Resolvable OtherResolvableInterface
+	Resolvable OtherResolvableInterface `di:"autowire"`
 	tst        int
 }
 
