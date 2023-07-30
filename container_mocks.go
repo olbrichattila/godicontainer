@@ -1,37 +1,37 @@
 package godicontainer
 
-type ResolvableInterface interface {
+type resolvableInterface interface {
 	Test() string
 }
 
-type OtherResolvableInterface interface {
+type otherresolvableInterface interface {
 	Test() string
 }
 
-type ResolvableConcrete struct {
-	Resolvable OtherResolvableInterface `di:"autowire"`
+type resolvableConcrete struct {
+	Resolvable otherresolvableInterface `di:"autowire"`
 	tst        int
 }
 
-func (r *ResolvableConcrete) Test() string {
+func (r *resolvableConcrete) Test() string {
 	return "It works"
 }
 
 func newResolvableConrete() (interface{}, error) {
-	return &ResolvableConcrete{}, nil
+	return &resolvableConcrete{}, nil
 }
 
-type OtherResolvableConcrete struct {
+type otherresolvableConcrete struct {
 }
 
-func (r *OtherResolvableConcrete) Test() string {
+func (r *otherresolvableConcrete) Test() string {
 	return "It works as other concrete implementation"
 }
 
-func (r *OtherResolvableConcrete) Construct() {
+func (r *otherresolvableConcrete) Construct() {
 
 }
 
 func newOtherResolvableConrete() (interface{}, error) {
-	return &OtherResolvableConcrete{}, nil
+	return &otherresolvableConcrete{}, nil
 }

@@ -13,7 +13,7 @@ container := godicontainer.NewContainer()
 // First parameter is the string representation of the interface to resolve
 // Second parameter is a function which has the following structure:
 // type CallbackFunc func() (interface{}, error)
-container.Set("ResolvableInterfaceName", newResolvableConrete)
+container.Set("resolvableInterfaceName", newResolvableConrete)
 ```
 
 ## With SetDefinitions

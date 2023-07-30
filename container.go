@@ -8,8 +8,6 @@ import (
 type CallbackFunc func() (interface{}, error)
 type CallbackDefinitions map[string]CallbackFunc
 
-type DummyStruct struct{}
-
 type ContainerInterface interface {
 	Get(string) interface{}
 	Has(string) bool

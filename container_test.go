@@ -1,32 +1,34 @@
 package godicontainer
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type ContainerTestSuite struct {
+type containerTestSuite struct {
 	suite.Suite
 	container *Container
 }
 
 func TestContainerRunner(t *testing.T) {
-	suite.Run(t, new(ContainerTestSuite))
+	suite.Run(t, new(containerTestSuite))
 }
 
-func (t *ContainerTestSuite) SetupTest() {
+func (t *containerTestSuite) SetupTest() {
 	t.container = NewContainer()
+	fmt.Println("Running test", t.T().Name())
 }
 
-func (t *ContainerTestSuite) TestSetAndGetWorskWithTheSameInterfaceAndDIfferentImplementation() {
-	resolveInterfaceName := "ResolvableInterface"
+func (t *containerTestSuite) TestSetAndGetWorskWithTheSameInterfaceAndDIfferentImplementation() {
+	resolveInterfaceName := "resolvableInterface"
 	t.container.Set(resolveInterfaceName, newResolvableConrete)
 	resolved, err := t.container.Get(resolveInterfaceName)
 
 	t.Nil(err)
 
-	asInterface, ok := resolved.(ResolvableInterface)
+	asInterface, ok := resolved.(resolvableInterface)
 
 	t.True(ok)
 
@@ -39,7 +41,7 @@ func (t *ContainerTestSuite) TestSetAndGetWorskWithTheSameInterfaceAndDIfferentI
 
 	t.Nil(err)
 
-	asInterface, ok = resolved.(ResolvableInterface)
+	asInterface, ok = resolved.(resolvableInterface)
 
 	t.True(ok)
 
@@ -48,9 +50,9 @@ func (t *ContainerTestSuite) TestSetAndGetWorskWithTheSameInterfaceAndDIfferentI
 	t.Equal("It works as other concrete implementation", text)
 }
 
-func (t *ContainerTestSuite) TestResolveDepencencies() {
-	s := ResolvableConcrete{}
-	resolveInterfaceName := "OtherResolvableInterface"
+func (t *containerTestSuite) TestResolveDepencencies() {
+	s := resolvableConcrete{}
+	resolveInterfaceName := "otherresolvableInterface"
 	t.container.Set(resolveInterfaceName, newResolvableConrete)
 
 	t.container.ResolvDependencies(s, &s)
@@ -63,28 +65,28 @@ func (t *ContainerTestSuite) TestResolveDepencencies() {
 	t.Equal("It works as other concrete implementation", s.Resolvable.Test())
 }
 
-func (t *ContainerTestSuite) TestSetDefinitions() {
+func (t *containerTestSuite) TestSetDefinitions() {
 
 	definitions := CallbackDefinitions{
-		"ResolvableInterface":      newResolvableConrete,
-		"OtherResolvableInterface": newOtherResolvableConrete,
+		"resolvableInterface":      newResolvableConrete,
+		"otherresolvableInterface": newOtherResolvableConrete,
 	}
 
 	t.container.SetDefinitions(definitions)
 
-	resolvableInstance, err := t.container.Get("ResolvableInterface")
+	resolvableInstance, err := t.container.Get("resolvableInterface")
 	t.Nil(err)
 
-	resolved, ok := resolvableInstance.(ResolvableInterface)
+	resolved, ok := resolvableInstance.(resolvableInterface)
 
 	t.True(ok)
 
 	t.Equal("It works", resolved.Test())
 
-	resolvableInstance, err = t.container.Get("OtherResolvableInterface")
+	resolvableInstance, err = t.container.Get("otherresolvableInterface")
 	t.Nil(err)
 
-	resolved, ok = resolvableInstance.(ResolvableInterface)
+	resolved, ok = resolvableInstance.(resolvableInterface)
 
 	t.True(ok)
 
