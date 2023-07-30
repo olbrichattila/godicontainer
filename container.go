@@ -35,7 +35,7 @@ func (c *Container) Get(id string) (interface{}, error) {
 		return resolvedStruct, nil
 	}
 
-	return nil, fmt.Errorf("Cannot resolve %s, use Set or Setfefintions to map it", id)
+	return nil, fmt.Errorf("Cannot resolve %s, use Set or 'SetDefinitions' to map it", id)
 }
 
 func (c *Container) Has(id string) bool {
