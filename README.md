@@ -51,6 +51,17 @@ type Creatures struct {
 }
 ```
 
+The struct property must be exported, therefore must start with capital letter:
+
+Not working: 
+```
+animal AnimalInterface `di:"autowire"`
+```
+Working:
+```
+Animal AnimalInterface `di:"autowire"`
+```
+
 Then wire in the dependencies:
 ```
 creatures := Creatures{}
@@ -230,3 +241,6 @@ func main() {
 	fmt.Println(creatures.Human.Say())
 }
 ```
+
+@TODO
+Incorrect setup will result in fatal error, add different checks to make sure all error handled
