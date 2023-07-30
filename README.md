@@ -6,6 +6,8 @@
 ## Usage:
 
 Mapping, resolving a struct via interface
+
+
 ```
 package main
 
@@ -15,6 +17,7 @@ import (
 	"github.com/olbrichattila/godicontainer"
 )
 
+// App to centralize the container
 type App struct {
 	container *godicontainer.Container
 }
@@ -26,6 +29,7 @@ type AnimalInterface interface {
 type Dog struct {
 }
 
+// Animal also can be a cat
 type Cat struct {
 }
 
@@ -79,7 +83,11 @@ func main() {
 }
 ```
 
-Autowire dependencies to a struct
+## Autowire dependencies to a struct
+
+Create a struct and add your properites with interface type hint, 
+Add `di:"autowire"` annotation to your struct to be auto wired
+
 
 ```
 package main
@@ -111,9 +119,10 @@ type HumanInterface interface {
 type Human struct {
 }
 
+// Add your annotations to be autowired
 type Creatures struct {
-	Animal AnimalInterface
-	Human  HumanInterface
+	Animal AnimalInterface `di:"autowire"`
+	Human  HumanInterface `di:"autowire"`
 }
 
 func (a *Dog) Eats() string {
@@ -151,11 +160,18 @@ func main() {
 	app.container.Set("AnimalInterface", NewCat)
 	app.container.Set("HumanInterface", NewHuman)
 
+	// You cannot use a ponter here
 	creatures := Creatures{}
+
+	// You have to pass the stucture instance and it's pointer as well
+	// The original strut will contain your changes
+	// (this may change in the future)
 	app.container.ResolvDependencies(creatures, &creatures)
 
 	fmt.Println(creatures.Animal.Eats())
 	fmt.Println(creatures.Human.Say())
 }
 ```
+
+
 
