@@ -1,7 +1,6 @@
 # Depencency injection container for golang
 
-!!! Not this is the very first version of the container, not yet production ready, it is in a prototype stage !!!
-
+## !!! This is the very first version of the container, not yet production ready, it is in a prototype stage and changes are coming soon. Why don't you test it?  !!!
 
 ## Usage:
 
