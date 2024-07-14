@@ -1,5 +1,9 @@
 # Depencency injection container for golang
 
+
+This package is archived in favour of:
+```https://github.com/olbrichattila/godi```
+
 ## !!! This is the very first version of the container, not yet production ready, it is in a prototype stage and changes are coming soon. Why don't you test it?  !!!
 
 ## Usage:
@@ -73,7 +77,7 @@ fmt.Println(creatures.Human.Say())
 
 Full examples:
 
-### Respolve instance
+### Resolve instance
 ```
 package main
 
